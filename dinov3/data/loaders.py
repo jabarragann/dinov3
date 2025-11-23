@@ -51,7 +51,7 @@ def _parse_dataset_str(dataset_str: str):
 
     for token in tokens[1:]:
         key, value = token.split("=")
-        assert key in ("root", "extra", "split")
+        assert key in ("root", "extra", "split", "scene_id")
         kwargs[key] = value
 
     if name == "ImageNet":
@@ -72,6 +72,13 @@ def _parse_dataset_str(dataset_str: str):
         class_ = NYU
         if "split" in kwargs:
             kwargs["split"] = NYU.Split[kwargs["split"]]
+    elif name == "tudl_bop":
+        from dinov3_lib_juan.datasets.tudl_bop import tudl_bop
+        class_ = tudl_bop
+        if "split" in kwargs:
+            kwargs["split"] = tudl_bop.Split[kwargs["split"]]
+        if "scene_id" in kwargs:
+            kwargs["scene_id"] = int(kwargs["scene_id"])
     else:
         raise ValueError(f'Unsupported dataset "{name}"')
 

@@ -9,7 +9,6 @@ from omegaconf import MISSING
 from typing import Any
 
 import torch
-
 from dinov3.data.transforms import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from dinov3.eval.segmentation.models import BackboneLayersSet
 from dinov3.eval.setup import ModelConfig
@@ -104,6 +103,10 @@ class EvalConfig:
     eval_interval: int = 40000
     use_tta: bool = False  # apply test-time augmentation at evaluation time
 
+@dataclass 
+class BackboneCustom:
+    type: str = MISSING  # e.g. "dinov3_vitl16"
+    weights_path: str = MISSING  # Path to the weights file
 
 @dataclass
 class SegmentationConfig:
@@ -124,3 +127,4 @@ class SegmentationConfig:
     # Additional Parameters
     output_dir: str | None = None
     load_from: str | None = None  # path to .pt checkpoint to resume training from or evaluate from
+    backbone_custom: BackboneCustom | None = None  # custom backbone config

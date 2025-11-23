@@ -44,3 +44,4 @@ class ExtendedVisionDataset(VisionDataset):
 
     def __len__(self) -> int:
         raise NotImplementedError
+
